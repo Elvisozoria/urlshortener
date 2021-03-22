@@ -28,7 +28,7 @@
                         @endif
                         <form action="{{ route('urls.store') }}" method ="POST">
                             <div class="form-row">
-                                <div class="col-sm-3">
+                                <div class="col-sm-6">
                                     <input type="text" name="original_url" placeholder="original url" class="form-control" value ="{{ old('original_url') }}">
                                 </div>
                                 <div class="col-auto">
@@ -40,31 +40,25 @@
                     </div>
                 </div>
                     <table class="table">
-                        <thead>
-                            <td>
-                                <th>ID</th>
-                                <th>Original url</th>
-                                <th>short url</th>
-                                <th>Title</th>
-                                <th>Hits</th>
-                                <th>&nbsp;</th>
-                            </td>
+                        <thead class="thead-dark">
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Original url</th>
+                                <th scope="col">short url</th>
+                                <th scope="col">Title</th>
+                                <th scope="col">Hits</th>
+                                <th scope="col">&nbsp;</th>
+                            </tr>
                         </thead>
                         <tbody>
                             @foreach($urls as $url)
                             <tr>
-                                <td>{{ $url->id }} </td>
-                                <td>{{ $url->original_url }} </td>
-                                <td>{{ $url->short_url }} </td>
+                                <th scope="row"> {{ $url->id }} </th>
+                                <td><a href="{{ $url->original_url }}" target="_blank">{{ $url->original_url }} </a></td>
+                                <td><a href="{{ $url->short_url }}" target="_blank">{{ url('/') . '/' . $url->short_url }} </a></td>
                                 <td>{{ $url->title }} </td>
                                 <td>{{ $url->hits }} </td>
-                                <td> 
-                                    <form action="{{ route('urls.destroy', $url) }}" method = "POST">
-                                        @method('DELETE')
-                                        @csrf
-                                        <input type="submit" value = "Delete" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure to delete?')">
-                                    </form>
-                                </td>
+
                             </tr>
                             @endforeach
                         </tbody>
