@@ -16,6 +16,16 @@ class UrlController extends Controller
         ]);
     }
 
+    public function getTop($amount)
+    {
+        $urls = Url::all()->sortByDesc('hits');
+
+
+        return response()
+            ->json([$urls]);
+
+    }
+
     public function request(Request $request)
     {
         $url_object = $this->create($request->original_url);
