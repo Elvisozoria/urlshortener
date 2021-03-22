@@ -43,6 +43,7 @@ class UrlController extends Controller
             'user_id' => 1,
         ]);
         $shorturl = $url_object->generateShortUrl();
+        $url_object->getTitle();
         return $url_object;
     }
 

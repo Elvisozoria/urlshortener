@@ -6,19 +6,19 @@ use Illuminate\Database\Eloquent\Model;
 
 class Url extends Model
 {
-    protected $fillable = ['original_url', 'short_url', 'title', 'hits', 'user_id'];
+	protected $fillable = ['original_url', 'short_url', 'title', 'hits', 'user_id'];
 
-    public function generateShortUrl(){
-        $long_url = $this -> original_url;
-        $this->short_url = $this->encode($this->id);
-        $this->save();
+	public function generateShortUrl(){
+		$long_url = $this -> original_url;
+		$this->short_url = $this->encode($this->id);
+		$this->save();
 
 		return $this->short_url;
-    }
+	}
 
-    
+	
 
-    const ALPHABET = '23456789bcdfghjkmnpqrstvwxyzBCDFGHJKLMNPQRSTVWXYZ-_';
+	const ALPHABET = '23456789bcdfghjkmnpqrstvwxyzBCDFGHJKLMNPQRSTVWXYZ-_';
 	const BASE = 51; // strlen(self::ALPHABET)
 
 	public static function encode($num) {
@@ -44,13 +44,26 @@ class Url extends Model
 		return $num;
 	}
 
-    public function visit()
-    {
-        $this -> hits += 1;
-        $this -> save();
-        return $this -> original_url;
+	public function visit()
+	{
+		$this -> hits += 1;
+		$this -> save();
+		return $this -> original_url;
 
-    }
+	}
+
+
+
+	function getTitle()
+	{
+		$url = $this->original_url;
+		preg_match("/<title>(.+)<\/title>/siU", file_get_contents($url), $matches);
+		$title = $matches[1];
+		$this->title = $title;
+		$this->save();
+
+		return $title;
+	}
 }
    
 
