@@ -12,6 +12,8 @@ class Url extends Model
         $long_url = $this -> original_url;
         $this->short_url = $this->encode($this->id);
         $this->save();
+
+		return $this->short_url;
     }
 
     
@@ -41,7 +43,7 @@ class Url extends Model
 
 		return $num;
 	}
-	
+
     public function visit()
     {
         $this -> hits += 1;

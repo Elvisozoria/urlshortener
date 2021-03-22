@@ -16,23 +16,41 @@ class UrlController extends Controller
         ]);
     }
 
+    public function request(Request $request)
+    {
+        $url_object = $this->create($request->original_url);
+
+
+        return response()
+            ->json(['shorturl' => url('/') . '/' . $url_object->short_url])
+            ->withCallback($request->input('callback'));
+    }
+
     public function store(Request $request)
     {
-
-        
-        
-        $url_object = Url::create([
-            'original_url' => $request->original_url,
-            'short_url' => '',
-            'title' => '',
-            'hits' => 1,
-            'user_id' => 1,
-        ]);
-
-        $url_object->generateShortUrl();
+        $url_object = $this->create($request->original_url);
      
         return back();
     }
+
+    public function create($original_url)
+    {
+        $url_object = Url::create([
+            'original_url' => $original_url,
+            'short_url' => '',
+            'title' => '',
+            'hits' => 0,
+            'user_id' => 1,
+        ]);
+        $shorturl = $url_object->generateShortUrl();
+        return $url_object;
+    }
+
+    public function show()
+    {
+        
+    }
+    
     public function destroy(Url $url)
     {
         $url->delete();

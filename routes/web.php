@@ -16,4 +16,5 @@ Route::get('/', function () {
 });
 
 Route::resource('urls','UrlController');
+Route::post('urls/new/','UrlController@request');
 Route::get('/{shorturl}', 'UrlController@redirect')-> name('url.redirect');
